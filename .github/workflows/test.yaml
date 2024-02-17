@@ -17,6 +17,7 @@ jobs:
         id: draw
         run: |
           set -o xtrace
+          IFS=$'\n'
           mkdir -p "images"
           declare -a DRAWINGS
           FIRST=1
@@ -35,9 +36,10 @@ jobs:
           done
           ls -la images config
           echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
-          echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
+          # echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
           # echo "DRAWINGS=${DRAWINGS}" >> $GITHUB_OUTPUT
-
+          echo "DRAWINGS=\"${DRAWINGS[*]}\"" >> $GITHUB_OUTPUT
+          
       - name: Artifact1 upload
         id: artifact-upload-step1
         uses: actions/upload-artifact@v4
