@@ -34,5 +34,6 @@ jobs:
         with:
           name: 'drawings'
           path: |
-            ${{ join(fromJSON(steps.draw.outputs.DRAWINGS), '\n') }}
+            ${{ join(fromJSON(steps.draw.outputs.DRAWINGS), '
+            ') }}
            
