@@ -30,15 +30,14 @@ jobs:
                 OUTPUTS="${OUTPUTS},"
               fi
               OUTPUTS="${OUTPUTS}\"images/$keyboard.yaml\",\"images/$keyboard.svg\""
-              DRAWINGS+=("images/$keyboard.yaml")
-              DRAWINGS+=("images/$keyboard.svg")
+              DRAWINGS+=(\\\"images/$keyboard.svg\\\" \\\"images/$keyboard.svg\\\")
               FIRST=0
           done
           ls -la images config
           echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
           # echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
           # echo "DRAWINGS=${DRAWINGS}" >> $GITHUB_OUTPUT
-          echo "DRAWINGS=\"${DRAWINGS[*]}\"" >> $GITHUB_OUTPUT
+          echo "DRAWINGS=\"[${DRAWINGS[*]}]\"" >> $GITHUB_OUTPUT
           
       - name: Artifact1 upload
         id: artifact-upload-step1
@@ -54,6 +53,6 @@ jobs:
         with:
           name: 'drawings-ARRAY'
           path: |
-            ${{ join(steps.draw.outputs.DRAWINGS, '
+            ${{ join(fromJSON(steps.draw.outputs.DRAWINGS), '
             ') }}
            
