@@ -20,8 +20,8 @@ jobs:
           for keymap_file in "config/*.keymap"; do
               keyboard=$(basename -s .keymap "$keymap_file")
               echo "INFO: drawing for $keyboard"
-              echo "$keyboard" >/images.$keyboard.yaml
-              echo "$keyboard" >/images.$keyboard.svg
+              echo "$keyboard" >images.$keyboard.yaml
+              echo "$keyboard" >images.$keyboard.svg
               if [[ ${FIRST} -ne 1 ]]; then
                 OUTPUTS="${OUTPUTS},"
               fi
