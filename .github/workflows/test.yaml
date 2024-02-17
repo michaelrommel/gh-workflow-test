@@ -17,7 +17,7 @@ jobs:
         id: draw
         run: |
           set -o xtrace
-          IFS=$'\n'
+          IFS=','
           mkdir -p "images"
           declare -a DRAWINGS
           FIRST=1
