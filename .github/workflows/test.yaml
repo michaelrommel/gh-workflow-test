@@ -19,6 +19,7 @@ jobs:
           set -o xtrace
           mkdir -p "images"
           declare -a DRAWINGS
+          FIRST=1
           for keymap_file in config/*.keymap; do
               keyboard=$(basename -s .keymap "$keymap_file")
               echo "INFO: drawing for $keyboard"
@@ -30,10 +31,11 @@ jobs:
               OUTPUTS="${OUTPUTS}\"images/$keyboard.yaml\",\"images/$keyboard.svg\""
               DRAWINGS+="images/$keyboard.yaml"
               DRAWINGS+="images/$keyboard.svg"
+              FIRST=0
           done
           ls -la images config
           echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
-          echo "DRAWINGS=${DRAWINGS[@]} >> $GITHUB_OUTPUT
+          echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
 
       - name: Artifact1 upload
         id: artifact-upload-step1
