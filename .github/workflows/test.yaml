@@ -35,7 +35,7 @@ jobs:
           echo "DRAWINGS=${DRAWINGS[@] >> $GITHUB_OUTPUT
 
       - name: Artifact1 upload
-        id: artifact-upload-step
+        id: artifact-upload-step1
         uses: actions/upload-artifact@v4
         with:
           name: 'drawings-JSON'
@@ -43,7 +43,7 @@ jobs:
             ${{ join(fromJSON(steps.draw.outputs.OUTPUTS), '
             ') }}
       - name: Artifact2 upload
-        id: artifact-upload-step
+        id: artifact-upload-step2
         uses: actions/upload-artifact@v4
         with:
           name: 'drawings-ARRAY'
