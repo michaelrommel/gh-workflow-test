@@ -30,7 +30,7 @@ jobs:
                 OUTPUTS="${OUTPUTS},"
               fi
               OUTPUTS="${OUTPUTS}\"images/$keyboard.yaml\",\"images/$keyboard.svg\""
-              DRAWINGS+=(\"images/$keyboard.svg\" \"images/$keyboard.svg\")
+              DRAWINGS+=(\"images/$keyboard.yaml\" \"images/$keyboard.svg\")
               FIRST=0
           done
           ls -la images config
