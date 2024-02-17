@@ -35,7 +35,8 @@ jobs:
           done
           ls -la images config
           echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
-          echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
+          # echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
+          echo "DRAWINGS=${DRAWINGS}" >> $GITHUB_OUTPUT
 
       - name: Artifact1 upload
         id: artifact-upload-step1
@@ -51,5 +52,6 @@ jobs:
         with:
           name: 'drawings-ARRAY'
           path: |
-            ${{ join(steps.draw.outputs.DRAWINGS, '\n') }}
+            ${{ join(steps.draw.outputs.DRAWINGS, '
+            ') }}
            
