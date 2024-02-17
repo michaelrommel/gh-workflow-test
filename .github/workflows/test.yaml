@@ -1,0 +1,42 @@
+name: Array Test
+on:
+  workflow_dispatch: # can be triggered manually
+
+jobs:
+  create:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # So the reference to the parent commit is available when amending
+          fetch-depth: 2
+      - name: Draw keymaps
+        id: draw
+        run: |
+          mkdir -p "images"
+          for keymap_file in "config/*.keymap"; do
+              keyboard=$(basename -s .keymap "$keymap_file")
+              echo "INFO: drawing for $keyboard"
+              echo "$keyboard" >/images.$keyboard.yaml
+              echo "$keyboard" >/images.$keyboard.svg
+              if [[ ${FIRST} -ne 1 ]]; then
+                OUTPUTS="${OUTPUTS},"
+              fi
+              OUTPUTS="${OUTPUTS}\"images/$keyboard.yaml\",\"images/$keyboard.svg\""
+          done
+          echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
+
+      - name: Artifact upload
+        id: artifact-upload-step
+        if: ( inputs.destination == 'artifact' || inputs.destination == 'both' )
+        uses: actions/upload-artifact@v4
+        with:
+          name: '${{ inputs.artifactname }}'
+          path: |
+            ${{ join(fromJSON(steps.draw.outputs.OUTPUTS), '
+            ') }}
+
+            
