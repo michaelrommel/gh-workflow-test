@@ -16,42 +16,23 @@ jobs:
       - name: Draw keymaps
         id: draw
         run: |
-          set -o xtrace
           IFS=','
-          mkdir -p "images"
           declare -a DRAWINGS
-          FIRST=1
+          mkdir -p "images"
           for keymap_file in config/*.keymap; do
               keyboard=$(basename -s .keymap "$keymap_file")
               echo "INFO: drawing for $keyboard"
               echo "$keyboard" >images/$keyboard.yaml
               echo "$keyboard" >images/$keyboard.svg
-              if [[ ${FIRST} -ne 1 ]]; then
-                OUTPUTS="${OUTPUTS},"
-              fi
-              OUTPUTS="${OUTPUTS}\"images/$keyboard.yaml\",\"images/$keyboard.svg\""
               DRAWINGS+=(\"images/$keyboard.yaml\" \"images/$keyboard.svg\")
-              FIRST=0
           done
-          ls -la images config
-          echo "OUTPUTS=[${OUTPUTS}]" >> $GITHUB_OUTPUT
-          # echo "DRAWINGS=${DRAWINGS[@]}" >> $GITHUB_OUTPUT
-          # echo "DRAWINGS=${DRAWINGS}" >> $GITHUB_OUTPUT
           echo "DRAWINGS=[${DRAWINGS[*]}]" >> $GITHUB_OUTPUT
           
-      - name: Artifact1 upload
-        id: artifact-upload-step1
+      - name: Artifact upload
+        id: artifact-upload-step
         uses: actions/upload-artifact@v4
         with:
-          name: 'drawings-JSON'
-          path: |
-            ${{ join(fromJSON(steps.draw.outputs.OUTPUTS), '
-            ') }}
-      - name: Artifact2 upload
-        id: artifact-upload-step2
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'drawings-ARRAY'
+          name: 'drawings'
           path: |
             ${{ join(fromJSON(steps.draw.outputs.DRAWINGS), '
             ') }}
